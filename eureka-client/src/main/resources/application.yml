@@ -1,0 +1,19 @@
+eureka:
+  client:
+    service-url:
+      availability-zones: http://eureka-peer1:8761/eureka,http://eureka-peer2:8762/eureka
+
+spring:
+  application:
+    name: FOO-APP
+---
+spring:
+  profiles: app1
+server:
+  port: 8080
+
+---
+spring:
+  profiles: app2
+server:
+  port: 8081

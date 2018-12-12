@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: peer1
+
+# 自分自身はeureka serverに登録しない
+eureka.client:
+  register-with-eureka: false
+  fetch-registry: false
+
+---
+spring:
+  profiles: peer1
+server:
+  port: 8761
+
+eureka:
+  instance:
+    # See blog post for details, modify /etc/hosts
+    hostname: eureka-peer1
+    # Either this one or the spring boot name must be the same
+    # (it works without setting it too, using the alias UNKNOWN)
+    appname: eureka-cluster
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-peer2:8762/eureka
+
+
+---
+spring:
+  profiles: peer2
+server:
+  port: 8762
+
+eureka:
+  instance:
+    # See blog post for details, modify /etc/hosts
+    hostname: eureka-peer2
+    # Either this one or the spring boot name must be the same
+    # (it works without setting it too, using the alias UNKNOWN)
+    appname: eureka-cluster
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-peer1:8761/eureka
